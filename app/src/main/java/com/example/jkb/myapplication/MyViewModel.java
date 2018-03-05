@@ -14,6 +14,9 @@ public class MyViewModel extends ViewModel {
     private MutableLiveData<Person> personMutableLiveData;
 
     public MutableLiveData<Person> getPersonMutableLiveData() {
+        if (personMutableLiveData==null){
+            personMutableLiveData = new MutableLiveData<Person>();
+        }
         return personMutableLiveData;
     }
 
