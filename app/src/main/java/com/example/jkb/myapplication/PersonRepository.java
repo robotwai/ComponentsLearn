@@ -11,14 +11,16 @@ import javax.inject.Inject;
 
 public class PersonRepository {
     private final PersonDao personDao;
-
     @Inject
     public PersonRepository(PersonDao personDao) {
         this.personDao = personDao;
     }
 
     public LiveData<Person> getPerson(int uid){
-        final MutableLiveData<Person> data = new MutableLiveData<>();
         return personDao.getPerson(uid);
+    }
+
+    public void savePerson(Person person){
+        personDao.insertAll(person);
     }
 }

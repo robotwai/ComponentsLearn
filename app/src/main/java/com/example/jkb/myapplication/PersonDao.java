@@ -1,9 +1,11 @@
 package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -13,13 +15,13 @@ import java.util.List;
  */
 @Dao
 public interface PersonDao {
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM person")
     LiveData<List<Person>> getAll();
 
-    @Query("SELECT * FROM user WHERE uid IN (:userid)")
+    @Query("SELECT * FROM person WHERE uid IN (:userid)")
     LiveData<Person> getPerson(int userid);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Person... users);
 
     @Delete

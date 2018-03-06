@@ -7,10 +7,11 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by jkb on 18/3/5.
  */
-@Entity
+@Entity(tableName = "person")
 public class Person {
 
     @PrimaryKey
+    @ColumnInfo(name = "uid")
     private int uid;
     @ColumnInfo(name = "name")
     private String name;
@@ -18,6 +19,14 @@ public class Person {
     private String address;
     @ColumnInfo(name = "phone")
     private int phone;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;
