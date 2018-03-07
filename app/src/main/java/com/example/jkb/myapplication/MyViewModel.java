@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.persistence.room.Room;
+import android.util.Log;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -14,7 +16,7 @@ import javax.inject.Inject;
 public class MyViewModel extends ViewModel {
 
 
-    private LiveData<Person> personMutableLiveData;
+    private LiveData<Person> personMutableLiveData ;
 
     private PersonRepository repository;
 
@@ -24,11 +26,6 @@ public class MyViewModel extends ViewModel {
     }
 
     public void init(int uid){
-        if (this.personMutableLiveData != null) {
-            // ViewModel is created per Fragment so
-            // we know the userId won't change
-            return;
-        }
         personMutableLiveData = repository.getPerson(uid);
     }
 
@@ -40,7 +37,6 @@ public class MyViewModel extends ViewModel {
     public void savePerson(Person person){
         repository.savePerson(person);
     }
-
 
 
 }
