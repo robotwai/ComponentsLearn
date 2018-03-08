@@ -1,6 +1,7 @@
 package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -96,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.button:
                 Person person = new Person();
-                person.setUid(1);
                 person.setName(editText4.getText().toString());
                 person.setAddress(editText5.getText().toString());
                 person.setPhone(Integer.parseInt(editText6.getText().toString()));
                 mModel.savePerson(person);
                 break;
             case R.id.button2:
+                startActivity(new Intent(this,ListActivity.class));
                 break;
         }
     }
