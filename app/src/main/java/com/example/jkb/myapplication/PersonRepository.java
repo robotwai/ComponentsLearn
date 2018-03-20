@@ -20,6 +20,7 @@ public class PersonRepository{
 
     private static PersonRepository INSTANCE = null;
 
+
     public PersonRepository(PersonDao personDao, Executor executor) {
         this.personDao = personDao;
         this.executor = executor;

@@ -20,7 +20,6 @@ public class MyViewModel extends ViewModel {
 
     private PersonRepository repository;
 
-    @Inject
     public MyViewModel(PersonRepository repository) {
         this.repository = repository;
     }

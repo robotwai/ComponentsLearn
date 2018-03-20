@@ -35,7 +35,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_list);
         ButterKnife.bind(this);
-        viewModel = new PersonListViewModel(PersonRepository.getInstance(PersonDatabase.getInstance(this).personDao(),
+        viewModel = new PersonListViewModel(new PersonRepository(PersonDatabase.getInstance(this).personDao(),
                 new DiskIOThreadExecutor()));
 
         adapter = new MyAdapter(this);

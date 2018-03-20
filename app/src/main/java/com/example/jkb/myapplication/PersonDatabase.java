@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * Created by jkb on 18/3/5.
  */
-@Database(entities = {Person.class}, version = 1, exportSchema = false)
+@Database(entities = {Person.class}, version = 2, exportSchema = false)
 public abstract class PersonDatabase extends RoomDatabase{
 
     public abstract PersonDao personDao();

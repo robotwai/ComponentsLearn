@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,46 +37,29 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.editText6)
     EditText editText6;
     private MyViewModel mModel;
-
+    @Inject
+    PersonRepository repository;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        DaggerPersonComponent.builder().build().inject(this);
+        DaggerPersonComponent.builder().personMoudle(new PersonMoudle(this)).build().inject(this);
+        mModel = new MyViewModel(repository);
 
-        mModel = new MyViewModel(PersonRepository.getInstance(PersonDatabase.getInstance(this).personDao(),
-                new DiskIOThreadExecutor()));
 
-        // Create the observer which updates the UI.
-//        final Observer<String> nameObserver = new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable final String newName) {
-//                // Update the UI, in this case, a TextView.
-//                sample_text.setText(newName);
-//            }
-//        };
-
-//        Executors.newSingleThreadExecutor().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                Person person = new Person();
-//                person.setUid(1);
-//                person.setName("lzzz");
-//                person.setAddress("ssdgsdg");
-//                person.setPhone(123);
-//                mModel.savePerson(person);
-//            }
-//        });
-
-        mModel.init(1);
+        mModel.init(5);
 
         final Observer<Person> personObserver = new Observer<Person>() {
             @Override
             public void onChanged(@Nullable Person person) {
-                textView4.setText(person.getName());
-                textView5.setText(person.getAddress());
-                textView6.setText(person.getPhone() + "");
+                if (person!=null){
+                    textView4.setText(person.getName());
+                    textView5.setText(person.getAddress());
+                    textView6.setText(person.getPhone() + "");
+                }
+
             }
         };
         mModel.getPersonMutableLiveData().observe(this, personObserver);
