@@ -16,6 +16,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,8 +37,8 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_list);
         ButterKnife.bind(this);
-        viewModel = new PersonListViewModel(new PersonRepository(PersonDatabase.getInstance(this).personDao(),
-                new DiskIOThreadExecutor()));
+//        DaggerListComponent.builder()
+        viewModel = new PersonListViewModel(((MyApplication)getApplication()).personRepository);
 
         adapter = new MyAdapter(this);
 

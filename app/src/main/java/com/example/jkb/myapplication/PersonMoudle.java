@@ -4,6 +4,8 @@ import android.content.Context;
 
 import java.util.concurrent.Executor;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,18 +20,15 @@ public class PersonMoudle {
         this.context = context;
     }
 
-    @Provides
-    PersonRepository providePeRep(PersonDao personDao,Executor executor){
-        return PersonRepository.getInstance(personDao,executor);
-    }
 
+    @Singleton
     @Provides
     PersonDao providePerson(){
         return PersonDatabase.getInstance(context).personDao();
     }
-    @Provides
-    Executor provideExe(){
-        return new DiskIOThreadExecutor();
-    }
+//    @Provides
+//    Executor provideExe(){
+//        return new DiskIOThreadExecutor();
+//    }
 
 }

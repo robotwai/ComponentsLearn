@@ -37,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.editText6)
     EditText editText6;
     private MyViewModel mModel;
-    @Inject
-    PersonRepository repository;
+//    @Inject
+//    PersonRepository repository;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 //        DaggerPersonComponent.builder().build().inject(this);
-        DaggerPersonComponent.builder().personMoudle(new PersonMoudle(this)).build().inject(this);
-        mModel = new MyViewModel(repository);
+//        DaggerPersonComponent.builder().personMoudle(new PersonMoudle(this)).build().inject(this);
+        mModel = new MyViewModel(((MyApplication)getApplication()).personRepository);
 
 
         mModel.init(5);

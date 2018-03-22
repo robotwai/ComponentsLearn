@@ -7,32 +7,25 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by lz on 18-3-5.
  */
-
+@Singleton
 public class PersonRepository{
     private PersonDao personDao;
 
 
     private final Executor executor;
 
-    private static PersonRepository INSTANCE = null;
 
-
-    public PersonRepository(PersonDao personDao, Executor executor) {
+    @Inject
+    public PersonRepository(PersonDao personDao, DiskIOThreadExecutor executor) {
         this.personDao = personDao;
         this.executor = executor;
     }
 
-    public static PersonRepository getInstance(PersonDao personDao,Executor executor
-                                              ) {
-        if (INSTANCE == null) {
-            INSTANCE = new PersonRepository(personDao,executor);
-        }
-        return INSTANCE;
-    }
 
     public void savePerson(final Person person) {
         executor.execute(new Runnable() {
