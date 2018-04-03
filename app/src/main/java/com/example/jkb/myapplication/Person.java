@@ -11,21 +11,21 @@ import android.arch.persistence.room.PrimaryKey;
 public class Person {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "uid")
-    private int uid;
+    @ColumnInfo(name = "id")
+    private int id;
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "address")
     private String address;
     @ColumnInfo(name = "phone")
-    private int phone;
+    private String phone;
 
-    public int getUid() {
-        return uid;
+    public int getId() {
+        return id;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -44,11 +44,11 @@ public class Person {
         this.address = address;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

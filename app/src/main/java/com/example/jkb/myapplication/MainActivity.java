@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -16,6 +17,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by jkb on 18/3/2.
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private MyViewModel mModel;
 //    @Inject
 //    PersonRepository repository;
+
+    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         mModel = new MyViewModel(((MyApplication)getApplication()).personRepository);
 
 
-        mModel.init(5);
+        mModel.init(1);
 
         final Observer<Person> personObserver = new Observer<Person>() {
             @Override
@@ -64,16 +72,9 @@ public class MainActivity extends AppCompatActivity {
         };
         mModel.getPersonMutableLiveData().observe(this, personObserver);
 
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-//        mModel.getCurrentName().observe(this, nameObserver);
-//
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String anotherName = "John Doe";
-//                mModel.getCurrentName().postValue(anotherName);
-//            }
-//        });
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.45.52:3000/")
+                .build();
     }
 
 
@@ -81,15 +82,60 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button:
-                Person person = new Person();
-                person.setName(editText4.getText().toString());
-                person.setAddress(editText5.getText().toString());
-                person.setPhone(Integer.parseInt(editText6.getText().toString()));
-                mModel.savePerson(person);
+//                Person person = new Person();
+//                person.setName(editText4.getText().toString());
+//                person.setAddress(editText5.getText().toString());
+//                person.setPhone(editText6.getText().toString());
+//                mModel.savePerson(person);
+                DemoService demoService = retrofit.create(DemoService.class);
+                Call<ResponseBody> call = demoService.savePeople(editText4.getText().toString()
+                ,editText5.getText().toString(),editText6.getText().toString());
+// 用法和OkHttp的call如出一辙,
+// 不同的是如果是Android系统回调方法执行在主线程
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            System.out.println(response.body().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
                 break;
             case R.id.button2:
                 startActivity(new Intent(this,ListActivity.class));
+//                testNet();
                 break;
         }
+    }
+
+    void testNet(){
+        DemoService demoService = retrofit.create(DemoService.class);
+        Call<ResponseBody> call = demoService.getNotify();
+// 用法和OkHttp的call如出一辙,
+// 不同的是如果是Android系统回调方法执行在主线程
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    System.out.println(response.body().string());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 }

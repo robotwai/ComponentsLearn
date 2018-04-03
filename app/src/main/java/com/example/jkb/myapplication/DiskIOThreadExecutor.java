@@ -13,7 +13,6 @@ import javax.inject.Inject;
 public class DiskIOThreadExecutor implements Executor {
 
     private final Executor mDiskIO;
-    @Inject
     public DiskIOThreadExecutor() {
         mDiskIO = Executors.newSingleThreadExecutor();
     }

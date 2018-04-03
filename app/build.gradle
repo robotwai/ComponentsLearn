@@ -67,4 +67,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version" // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile "com.squareup.retrofit2:converter-gson:2.4.0"
 }

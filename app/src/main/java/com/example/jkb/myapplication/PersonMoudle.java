@@ -2,7 +2,8 @@ package com.example.jkb.myapplication;
 
 import android.content.Context;
 
-import java.util.concurrent.Executor;
+import com.example.jkb.myapplication.data.local.PersonDao;
+import com.example.jkb.myapplication.data.local.PersonDatabase;
 
 import javax.inject.Singleton;
 

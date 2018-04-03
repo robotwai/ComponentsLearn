@@ -9,10 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +26,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by jkb on 18/3/5.
@@ -31,7 +41,7 @@ public class ListActivity extends AppCompatActivity {
     ListView lv;
     MyAdapter adapter;
     PersonListViewModel viewModel;
-
+    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +61,82 @@ public class ListActivity extends AppCompatActivity {
                 adapter.setData(people);
             }
         });
+//        retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.45.52:3000/")
+//                .build();
+//
+//        testNet();
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                delete(id);
+                return false;
+            }
+        });
     }
 
+
+    void testNet() {
+
+        DemoService demoService = retrofit.create(DemoService.class);
+        Call<ResponseBody> call = demoService.getPeople();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+
+                    String s = response.body().string();
+                    LogUtils.log(s);
+                    Type type = new TypeToken<ArrayList<Person>>() {
+                    }.getType();
+
+                    List<Person> list = new Gson().fromJson(s,type);
+                    adapter.setData(list);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    void delete(long id){
+        DemoService demoService = retrofit.create(DemoService.class);
+        Call<ResponseBody> call = demoService.deletePeople((int)id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+
+                    String s = response.body().string();
+                    LogUtils.log(s);
+                    testNet();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
     @OnClick(R.id.btn_add)
     public void onViewClicked() {
         Person person = new Person();
         person.setName("lz");
         person.setAddress("lzaddress");
-        person.setPhone(1456);
+        person.setPhone("1456");
         viewModel.savePerson(person);
     }
 
@@ -89,7 +167,7 @@ public class ListActivity extends AppCompatActivity {
 
         @Override
         public long getItemId(int position) {
-            return position;
+            return listLiveData.get(position).getId();
         }
 
         @Override

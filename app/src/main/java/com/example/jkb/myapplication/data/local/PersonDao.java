@@ -1,4 +1,4 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.data.local;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -7,6 +7,8 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+
+import com.example.jkb.myapplication.Person;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public interface PersonDao {
     @Query("SELECT * FROM person")
     LiveData<List<Person>> getAll();
 
-    @Query("SELECT * FROM person WHERE uid IN (:userid)")
+    @Query("SELECT * FROM person WHERE id IN (:userid)")
     LiveData<Person> getPerson(int userid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

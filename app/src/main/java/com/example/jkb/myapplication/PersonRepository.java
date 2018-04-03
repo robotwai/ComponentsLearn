@@ -1,7 +1,11 @@
 package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
+
+import com.example.jkb.myapplication.data.PersonDataResource;
+import com.example.jkb.myapplication.data.local.PersonDao;
+import com.example.jkb.myapplication.data.local.PersonLocalDataResource;
+import com.example.jkb.myapplication.data.network.PersonNetDataResource;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -13,35 +17,28 @@ import javax.inject.Singleton;
  * Created by lz on 18-3-5.
  */
 @Singleton
-public class PersonRepository{
-    private PersonDao personDao;
-
-
-    private final Executor executor;
-
+public class PersonRepository implements PersonDataResource{
+    private PersonLocalDataResource personDataResourceLocal;
+    private PersonNetDataResource personDataResourceNet;
 
     @Inject
-    public PersonRepository(PersonDao personDao, DiskIOThreadExecutor executor) {
-        this.personDao = personDao;
-        this.executor = executor;
+    public PersonRepository(PersonLocalDataResource personDataResourceLocal, PersonNetDataResource personDataResourceNet) {
+        this.personDataResourceLocal = personDataResourceLocal;
+        this.personDataResourceNet = personDataResourceNet;
     }
 
-
+    @Override
     public void savePerson(final Person person) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                personDao.insertAll(person);
-            }
-        });
+        personDataResourceNet.savePerson(person);
     }
 
+    @Override
     public LiveData<List<Person>> getPersons() {
-        return personDao.getAll();
+        return personDataResourceNet.getPersons();
     }
 
-
+    @Override
     public LiveData<Person> getPerson(int uid) {
-        return personDao.getPerson(uid);
+        return personDataResourceNet.getPerson(uid);
     }
 }
