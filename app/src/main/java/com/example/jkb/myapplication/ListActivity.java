@@ -2,6 +2,7 @@ package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,6 @@ public class ListActivity extends AppCompatActivity {
     ListView lv;
     MyAdapter adapter;
     PersonListViewModel viewModel;
-    Retrofit retrofit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,83 +61,29 @@ public class ListActivity extends AppCompatActivity {
                 adapter.setData(people);
             }
         });
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.45.52:3000/")
-//                .build();
-//
-//        testNet();
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                delete(id);
+                viewModel.remove((int)id);
                 return false;
             }
         });
-    }
 
-
-    void testNet() {
-
-        DemoService demoService = retrofit.create(DemoService.class);
-        Call<ResponseBody> call = demoService.getPeople();
-        call.enqueue(new Callback<ResponseBody>() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-
-                    String s = response.body().string();
-                    LogUtils.log(s);
-                    Type type = new TypeToken<ArrayList<Person>>() {
-                    }.getType();
-
-                    List<Person> list = new Gson().fromJson(s,type);
-                    adapter.setData(list);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ListActivity.this,PersonDetailActivity.class);
+                intent.putExtra("id",(int)id);
+                startActivity(intent);
             }
         });
-
     }
 
-    void delete(long id){
-        DemoService demoService = retrofit.create(DemoService.class);
-        Call<ResponseBody> call = demoService.deletePeople((int)id);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
 
-                    String s = response.body().string();
-                    LogUtils.log(s);
-                    testNet();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-
-    }
     @OnClick(R.id.btn_add)
     public void onViewClicked() {
-        Person person = new Person();
-        person.setName("lz");
-        person.setAddress("lzaddress");
-        person.setPhone("1456");
-        viewModel.savePerson(person);
+        startActivity(new Intent(this,PersonDetailActivity.class));
     }
 
     class MyAdapter extends BaseAdapter {

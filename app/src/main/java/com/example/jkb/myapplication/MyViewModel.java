@@ -25,7 +25,7 @@ public class MyViewModel extends ViewModel {
     }
 
     public void init(int uid){
-        personMutableLiveData = repository.getPerson(uid);
+        personMutableLiveData =repository.getPerson(uid);
     }
 
     public LiveData<Person> getPersonMutableLiveData() {
@@ -36,6 +36,8 @@ public class MyViewModel extends ViewModel {
     public void savePerson(Person person){
         repository.savePerson(person);
     }
-
+    public void removePerson(int id){
+        repository.removePerson(id);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.jkb.myapplication.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
 import com.example.jkb.myapplication.Person;
 
@@ -12,11 +13,11 @@ import java.util.List;
 
 public interface PersonDataResource {
 
-    LiveData<List<Person>> getPersons();
+    void getPersons(MutableLiveData<List<Person>> listLiveData);
 
-    LiveData<Person> getPerson(int uid);
+    void getPerson(int uid,MutableLiveData<Person> liveData);
 
     void savePerson(Person person);
 
-
+    void removePerson(int id);
 }

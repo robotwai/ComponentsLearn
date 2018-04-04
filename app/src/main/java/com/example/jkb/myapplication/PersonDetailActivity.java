@@ -1,5 +1,6 @@
 package com.example.jkb.myapplication;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -22,23 +23,48 @@ public class PersonDetailActivity extends AppCompatActivity {
     @BindView(R.id.textView3)
     EditText textView3;
 
+    MyViewModel myViewModel;
+
+    int id;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_person);
         ButterKnife.bind(this);
+        id = getIntent().getIntExtra("id",0);
+        init(id);
     }
 
-    void init(){
-
+    void init(int id){
+        myViewModel = new MyViewModel(((MyApplication)getApplication()).personRepository);
+        myViewModel.init(id);
+        myViewModel.getPersonMutableLiveData().observe(this, new Observer<Person>() {
+            @Override
+            public void onChanged(@Nullable Person person) {
+                if (person!=null){
+                    textView.setText(person.getName());
+                    textView2.setText(person.getAddress());
+                    textView3.setText(person.getPhone());
+                }
+            }
+        });
     }
 
     @OnClick({R.id.button3, R.id.button4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button3:
+                Person person = new Person();
+                person.setId(id);
+                person.setName(textView.getText().toString());
+                person.setAddress(textView2.getText().toString());
+                person.setPhone(textView3.getText().toString());
+                myViewModel.savePerson(person);
+                finish();
                 break;
             case R.id.button4:
+                myViewModel.removePerson(id);
+                finish();
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
@@ -24,5 +25,9 @@ public class PersonListViewModel extends ViewModel {
 
     public void savePerson(Person person){
         repository.savePerson(person);
+    }
+
+    public void remove(int id){
+        repository.removePerson(id);
     }
 }
