@@ -1,5 +1,7 @@
 package com.example.jkb.myapplication;
 
+import android.arch.lifecycle.LiveData;
+
 import com.example.jkb.myapplication.data.BaseResponse;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public interface DemoService {
     Call<BaseResponse<List<Person>>>  getPeople();
 
     @POST("people/save_data.json")
-    Call<BaseResponse> savePeople(@QueryMap Map<String, String> options);
+    Call<BaseResponse<Person>> savePeople(@QueryMap Map<String, String> options);
 
     @POST("people/remove.json")
     Call<BaseResponse> deletePeople(@Query("id") int id);
@@ -34,6 +36,8 @@ public interface DemoService {
     Call<BaseResponse<Person>>  getPeople(@Query("id") int id);
 
     @POST("people/update_data.json")
-    Call<BaseResponse> updatePeople(@QueryMap Map<String, String> options);
+    Call<BaseResponse<Person>> updatePeople(@QueryMap Map<String, String> options);
 
+    @GET("people/get_one_data.json")
+    LiveData<ApiResponse<Person>>  getPerson(@Query("id") int id);
 }

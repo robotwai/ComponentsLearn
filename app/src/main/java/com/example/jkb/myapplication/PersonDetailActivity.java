@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +16,7 @@ import butterknife.OnClick;
  * Created by jkb on 18/4/3.
  */
 
-public class PersonDetailActivity extends AppCompatActivity {
+public class PersonDetailActivity extends BaseActivity {
     @BindView(R.id.textView)
     EditText textView;
     @BindView(R.id.textView2)
@@ -38,14 +39,33 @@ public class PersonDetailActivity extends AppCompatActivity {
     void init(int id){
         myViewModel = new MyViewModel(((MyApplication)getApplication()).personRepository);
         myViewModel.init(id);
-        myViewModel.getPersonMutableLiveData().observe(this, new Observer<Person>() {
-            @Override
-            public void onChanged(@Nullable Person person) {
-                if (person!=null){
-                    textView.setText(person.getName());
-                    textView2.setText(person.getAddress());
-                    textView3.setText(person.getPhone());
+//        myViewModel.getPersonMutableLiveData().observe(this, new Observer<Person>() {
+//            @Override
+//            public void onChanged(@Nullable Person person) {
+//                if (person!=null){
+//                    textView.setText(person.getName());
+//                    textView2.setText(person.getAddress());
+//                    textView3.setText(person.getPhone());
+//                }
+//            }
+//        });
+
+        myViewModel.getPersonMutableLiveData().observe(this, personResource -> {
+            if (personResource!=null){
+                switch (personResource.status){
+                    case ERROR:
+                        Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOADING:
+                        Toast.makeText(getApplicationContext(),"LOADING",Toast.LENGTH_SHORT).show();
+                        break;
+                    case SUCCESS:
+                        textView.setText(personResource.data.getName());
+                        textView2.setText(personResource.data.getAddress());
+                        textView3.setText(personResource.data.getPhone());
+                        break;
                 }
+
             }
         });
     }

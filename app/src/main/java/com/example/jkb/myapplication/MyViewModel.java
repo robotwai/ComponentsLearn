@@ -16,7 +16,7 @@ import javax.inject.Inject;
 public class MyViewModel extends ViewModel {
 
 
-    private LiveData<Person> personMutableLiveData ;
+    private LiveData<Resource<Person>> personMutableLiveData ;
 
     private PersonRepository repository;
 
@@ -28,7 +28,7 @@ public class MyViewModel extends ViewModel {
         personMutableLiveData =repository.getPerson(uid);
     }
 
-    public LiveData<Person> getPersonMutableLiveData() {
+    public LiveData<Resource<Person>> getPersonMutableLiveData() {
 
         return personMutableLiveData;
     }

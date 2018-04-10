@@ -2,6 +2,8 @@ package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.jkb.myapplication.data.BaseResponse;
 import com.example.jkb.myapplication.data.PersonDataResource;
@@ -29,18 +31,43 @@ public class PersonRepository {
     Retrofit retrofit;
     PersonDao personDao;
     Executor executor;
-
+    DemoService webService;
     @Inject
-    public PersonRepository(Retrofit retrofit, PersonDao personDao, Executor executor) {
+    public PersonRepository(Retrofit retrofit, PersonDao personDao, Executor executor,DemoService webService) {
         this.retrofit = retrofit;
         this.personDao = personDao;
         this.executor = executor;
+        this.webService = webService;
     }
 
-    public LiveData<Person> getPerson(int id){
+    public LiveData<Resource<Person>> getPerson(int id){
         refreshPerson(id);
         // return a LiveData directly from the database.
-        return personDao.getPerson(id);
+//        return personDao.getPerson(id);
+
+
+        return new NetworkBoundResource<Person,Person>() {
+            @Override
+            protected void saveCallResult(@NonNull Person item) {
+                personDao.insertAll(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Person data) {
+                return true;
+            }
+
+            @NonNull @Override
+            protected LiveData<Person> loadFromDb() {
+                return personDao.getPerson(id);
+            }
+
+            @NonNull @Override
+            protected LiveData<ApiResponse<Person>> createCall() {
+                return webService.getPerson(id);
+            }
+        }.getAsLiveData();
+
     }
 
 
@@ -48,28 +75,25 @@ public class PersonRepository {
         if (id ==0){
             return;
         }
-        retrofit.create(DemoService.class).getPeople(id).enqueue(
-                new Callback<BaseResponse<Person>>() {
+
+
+        retrofit.create(DemoService.class).getPeople(id).enqueue(new LZCallback<Person>() {
+            @Override
+            void setDate(final Person person) {
+                executor.execute(new Runnable() {
                     @Override
-                    public void onResponse(Call<BaseResponse<Person>> call,final Response<BaseResponse<Person>> response) {
-                        if (response.body().getStatus()==0){
-                            executor.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    personDao.insertAll(response.body().getData());
-                                }
-                            });
-                        }
-
-
+                    public void run() {
+                        personDao.insertAll(person);
                     }
+                });
+            }
 
-                    @Override
-                    public void onFailure(Call<BaseResponse<Person>> call, Throwable t) {
+            @Override
+            void setError() {
 
-                    }
-                }
-        );
+            }
+        });
+
     }
 
     public LiveData<List<Person>> getPersons(){
@@ -88,6 +112,7 @@ public class PersonRepository {
                         executor.execute(new Runnable() {
                             @Override
                             public void run() {
+                                personDao.deleteAll();
                                 Person[] p = response.body().getData().toArray(new Person[0]);
                                 personDao.insertAll(p);
                             }
@@ -110,41 +135,41 @@ public class PersonRepository {
         if (person.getId()!=0){
             map.put("id", person.getId()+"");
             retrofit.create(DemoService.class).updatePeople(map)
-                    .enqueue(new Callback<BaseResponse>() {
+                    .enqueue(new Callback<BaseResponse<Person>>() {
                         @Override
-                        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                        public void onResponse(Call<BaseResponse<Person>> call,final Response<BaseResponse<Person>> response) {
                             if (response.body().getStatus()==0){
                                 executor.execute(new Runnable() {
                                     @Override
                                     public void run() {
-                                        personDao.insertAll(person);
+                                        personDao.insertAll(response.body().getData());
                                     }
                                 });
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<BaseResponse> call, Throwable t) {
+                        public void onFailure(Call<BaseResponse<Person>> call, Throwable t) {
 
                         }
                     });
         }else {
             retrofit.create(DemoService.class).savePeople(map)
-                    .enqueue(new Callback<BaseResponse>() {
+                    .enqueue(new Callback<BaseResponse<Person>>() {
                         @Override
-                        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                        public void onResponse(Call<BaseResponse<Person>> call,final Response<BaseResponse<Person>> response) {
                             if (response.body().getStatus()==0){
                                 executor.execute(new Runnable() {
                                     @Override
                                     public void run() {
-                                        personDao.insertAll(person);
+                                        personDao.insertAll(response.body().getData());
                                     }
                                 });
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<BaseResponse> call, Throwable t) {
+                        public void onFailure(Call<BaseResponse<Person>> call, Throwable t) {
 
                         }
                     });
@@ -175,5 +200,14 @@ public class PersonRepository {
 
                     }
                 });
+    }
+
+    public void clear(){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                personDao.deleteAll();
+            }
+        });
     }
 }

@@ -30,4 +30,7 @@ public class PersonListViewModel extends ViewModel {
     public void remove(int id){
         repository.removePerson(id);
     }
+    public void clear(){
+        repository.clear();
+    }
 }
