@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
     Context context;
+    String url = "http://192.168.45.31:3000/";
 
     public AppModule(Context context) {
         this.context = context;
@@ -34,29 +35,6 @@ public class AppModule {
         return PersonDatabase.getInstance(context).personDao();
     }
 
-    @Singleton
-    @Provides
-    Retrofit provideRetrofit(){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Log.e("lzz","lzzz====message " + message);
-            }
-        });
-        return new Retrofit.Builder()
-                .baseUrl("http://192.168.45.52:3000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(new OkHttpClient.Builder()
-                    .addInterceptor(new CommonInterceptor())
-                    .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                        @Override
-                        public void log(String message) {
-                            Log.i("lzz","lzzz====message " + message);
-                        }
-                    }))
-                    .build())
-                .build();
-    }
 
     @Singleton
     @Provides
@@ -67,24 +45,22 @@ public class AppModule {
     @Singleton
     @Provides
     DemoService provideDemoService(){
+
         return new Retrofit.Builder()
-                .baseUrl("http://192.168.45.52:3000")
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .client(new OkHttpClient.Builder()
+                        .addInterceptor(new CommonInterceptor())
+                        .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                            @Override
+                            public void log(String message) {
+                                Log.i("lzz","lzzz====message " + message);
+                            }
+                        }))
+                        .build())
                 .build()
                 .create(DemoService.class);
-//        return new Retrofit.Builder()
-//                .baseUrl("http://192.168.45.52:3000/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(new OkHttpClient.Builder()
-//                        .addInterceptor(new CommonInterceptor())
-//                        .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-//                            @Override
-//                            public void log(String message) {
-//                                Log.i("lzz","lzzz====message " + message);
-//                            }
-//                        }))
-//                        .build())
-//                ;
+
     }
 }

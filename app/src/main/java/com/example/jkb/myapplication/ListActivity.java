@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +44,26 @@ public class ListActivity extends BaseActivity {
 
 
         lv.setAdapter(adapter);
-        viewModel.getListLiveData().observe(this, new Observer<List<Person>>() {
-            @Override
-            public void onChanged(@Nullable List<Person> people) {
-                adapter.setData(people);
+//        viewModel.getListLiveData().observe(this, new Observer<List<Person>>() {
+//            @Override
+//            public void onChanged(@Nullable List<Person> people) {
+//                adapter.setData(people);
+//            }
+//        });
+        viewModel.getListLiveData().observe(this,personList->{
+            if (personList!=null){
+                switch (personList.status){
+                    case ERROR:
+                        Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOADING:
+                        Toast.makeText(getApplicationContext(),"LOADING",Toast.LENGTH_SHORT).show();
+                        break;
+                    case SUCCESS:
+                        adapter.setData(personList.data);
+                }
             }
         });
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

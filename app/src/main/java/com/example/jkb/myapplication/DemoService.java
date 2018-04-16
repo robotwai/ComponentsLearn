@@ -24,7 +24,7 @@ public interface DemoService {
     @GET("static_pages/json.json")
     Call<ResponseBody>  getNotify();
     @GET("people/get_data.json")
-    Call<BaseResponse<List<Person>>>  getPeople();
+    LiveData<ApiResponse<List<Person>>>  getPeople();
 
     @POST("people/save_data.json")
     Call<BaseResponse<Person>> savePeople(@QueryMap Map<String, String> options);

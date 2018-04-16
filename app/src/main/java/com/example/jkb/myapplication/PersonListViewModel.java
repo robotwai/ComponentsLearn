@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public class PersonListViewModel extends ViewModel {
-    private LiveData<List<Person>> listLiveData;
+    private LiveData<Resource<List<Person>>> listLiveData;
     private PersonRepository repository;
 
     public PersonListViewModel(PersonRepository repository) {
@@ -19,7 +19,7 @@ public class PersonListViewModel extends ViewModel {
         listLiveData = repository.getPersons();
     }
 
-    public LiveData<List<Person>> getListLiveData(){
+    public LiveData<Resource<List<Person>>> getListLiveData(){
         return listLiveData;
     }
 
