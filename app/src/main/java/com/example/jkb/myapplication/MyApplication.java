@@ -12,6 +12,9 @@ import javax.inject.Inject;
 public class MyApplication extends Application {
     @Inject
     PersonRepository personRepository;
+
+    @Inject
+    SharedPreferenceHelper sharedPreferenceHelper;
     @Override
     public void onCreate() {
         super.onCreate();

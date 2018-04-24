@@ -1,6 +1,8 @@
 package com.example.jkb.myapplication;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.jkb.myapplication.data.local.PersonDao;
@@ -23,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
     Context context;
-    String url = "http://192.168.45.31:3000/";
+    String url = "http://192.168.45.47:3000/";
 
     public AppModule(Context context) {
         this.context = context;
@@ -62,5 +64,11 @@ public class AppModule {
                 .build()
                 .create(DemoService.class);
 
+    }
+
+    @Singleton
+    @Provides
+    SharedPreferences provideSharePreferences(){
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 }

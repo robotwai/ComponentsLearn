@@ -40,4 +40,7 @@ public interface DemoService {
 
     @GET("people/get_one_data.json")
     LiveData<ApiResponse<Person>>  getPerson(@Query("id") int id);
+
+    @POST("applogin.json")
+    Call<BaseResponse> login(@QueryMap Map<String, String> options);
 }
