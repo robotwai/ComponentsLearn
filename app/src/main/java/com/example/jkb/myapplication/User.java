@@ -8,6 +8,15 @@ public class User {
     private String token;
     private String email;
     private String name;
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getToken() {
         return token;

@@ -71,4 +71,5 @@ public class AppModule {
     SharedPreferences provideSharePreferences(){
         return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
+
 }

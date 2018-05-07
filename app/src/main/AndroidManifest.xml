@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jkb.myapplication">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +12,7 @@
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +22,8 @@
         <activity android:name=".ListActivity"/>
         <activity android:name=".PersonDetailActivity"/>
         <activity android:name=".MainActivity"/>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>
