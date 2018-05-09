@@ -9,6 +9,15 @@ public class User {
     private String email;
     private String name;
     private String icon;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getIcon() {
         return icon;

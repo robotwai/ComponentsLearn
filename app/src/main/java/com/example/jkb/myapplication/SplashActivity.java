@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.BaseAdapter;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,7 +13,7 @@ import java.util.TimerTask;
  * Created by jkb on 18/5/7.
  */
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,6 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        }, 2000);//3秒后执行TimeTask的run方法
+        }, 1000);//3秒后执行TimeTask的run方法
     }
 }
