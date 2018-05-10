@@ -22,6 +22,9 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     protected abstract boolean shouldFetch(@Nullable ResultType data);
 
+    boolean hasNext = true;
+
+    int page = 1;
     // Called to get the cached data from the database
     @NonNull @MainThread
     protected abstract LiveData<ResultType> loadFromDb();
@@ -42,6 +45,10 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @MainThread
     NetworkBoundResource() {
+        start();
+    }
+
+    void start(){
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
@@ -99,6 +106,11 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     public final LiveData<Resource<ResultType>> getAsLiveData() {
         return result;
+    }
+
+    void setHasNext(boolean hasNext){
+        this.hasNext = hasNext;
+        page++;
     }
 
 }

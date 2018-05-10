@@ -1,16 +1,46 @@
 package com.example.jkb.myapplication;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by jkb on 18/5/9.
  */
-
+@Entity(tableName = "micropost")
 public class Micropost {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
+    @ColumnInfo(name = "content")
     private String content;
+    @ColumnInfo(name = "user_id")
     private int user_id;
+    @ColumnInfo(name = "created_at")
     private String created_at;
-    private String updated_at;
-    private Picture picture;
+    @ColumnInfo(name = "picture")
+    private String picture;
+    @ColumnInfo(name = "user_name")
+    private String user_name;
+    @ColumnInfo(name = "icon")
+    private String icon;
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public int getId() {
         return id;
@@ -44,31 +74,25 @@ public class Micropost {
         this.created_at = created_at;
     }
 
-    public String getUpdated_at() {
-        return updated_at;
-    }
 
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public Picture getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(Picture picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
-    public class Picture{
-        String url;
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
+    @Override
+    public String toString() {
+        return "Micropost{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", user_id=" + user_id +
+                ", created_at='" + created_at + '\'' +
+                ", picture='" + picture + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
     }
 }

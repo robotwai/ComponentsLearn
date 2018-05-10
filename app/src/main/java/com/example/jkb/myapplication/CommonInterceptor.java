@@ -1,6 +1,8 @@
 package com.example.jkb.myapplication;
 
 
+import com.example.jkb.myapplication.utils.Constans;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -12,7 +14,7 @@ import okhttp3.Response;
  * Created by lz on 2017/4/25.
  */
 
-public class CommonInterceptor implements Interceptor {
+public class CommonInterceptor implements Interceptor ,Constans{
 
 
     public CommonInterceptor() {
@@ -28,8 +30,10 @@ public class CommonInterceptor implements Interceptor {
                 .newBuilder()
                 .scheme(oldRequest.url().scheme())
                 .host(oldRequest.url().host());
-
-
+        String s =MyApplication.getInstance().sharedPreferenceHelper.getString(TOKEN);
+        if (s!=null){
+            authorizedUrlBuilder.addQueryParameter("token",s );
+        }
 
         // 新的请求
         Request newRequest = oldRequest.newBuilder()

@@ -21,7 +21,7 @@ public class SplashActivity extends BaseActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if (((MyApplication) getApplication()).sharedPreferenceHelper.getString("user").isEmpty()){
+                if (((MyApplication) getApplication()).sharedPreferenceHelper.getString(TOKEN).isEmpty()){
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 }else {

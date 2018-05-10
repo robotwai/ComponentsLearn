@@ -1,6 +1,7 @@
 package com.example.jkb.myapplication;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.jkb.myapplication.utils.DensityUtils;
+import com.example.jkb.myapplication.utils.GlideCircleTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,26 +52,38 @@ public class MicropostAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(
                     R.layout.ad_micropost, null);
 
-            holder.textView7 = (TextView)convertView.findViewById(R.id.textView7);
-            holder.textView8 = (TextView)convertView.findViewById(R.id.textView8);
-            holder.textView9 = (TextView)convertView.findViewById(R.id.textView9);
+            holder.tv_name = (TextView)convertView.findViewById(R.id.tv_name);
+            holder.tv_time = (TextView)convertView.findViewById(R.id.tv_time);
+            holder.tv_content = (TextView)convertView.findViewById(R.id.tv_content);
+            holder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
+            holder.iv_picture = (ImageView)convertView.findViewById(R.id.iv_picture);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         Micropost micropost = list.get(position);
+        if (micropost.getPicture()!=null){
+            holder.iv_picture.setVisibility(View.VISIBLE);
+            Glide.with(context).
+                    load(DemoService.url+micropost.getPicture()).dontAnimate().
+                    override(DensityUtils.dip2px(context,200),DensityUtils.dip2px(context,200)).
+                    diskCacheStrategy(DiskCacheStrategy.ALL).
+                    into(holder.iv_picture);
+        }else {
+            holder.iv_picture.setVisibility(View.GONE);
+        }
 
-//        Glide.with(context).
-//                load(ImageUtils.getInstance().formatUrl(healthInfo.getPath())).dontAnimate().
-//                diskCacheStrategy(DiskCacheStrategy.ALL).
-//                error(R.mipmap.healthinfo_default).
-//                placeholder(R.mipmap.healthinfo_default).
-//                centerCrop().into(holder.iv);
+        Glide.with(context).
+                load(DemoService.url+micropost.getIcon()).dontAnimate().
+                diskCacheStrategy(DiskCacheStrategy.ALL).
+                placeholder(ContextCompat.getDrawable(context, R.mipmap.ic_launcher)).
+                error(ContextCompat.getDrawable(context, R.mipmap.ic_launcher)).
+                transform(new GlideCircleTransform(context)).
+                into(holder.iv_icon);
 
-
-        holder.textView7.setText(micropost.getContent());
-        holder.textView8.setText(micropost.getId()+"");
-        holder.textView9.setText(micropost.getCreated_at());
+        holder.tv_content.setText(micropost.getContent());
+        holder.tv_name.setText(micropost.getUser_name());
+        holder.tv_time.setText(micropost.getCreated_at());
         return convertView;
     }
 
@@ -84,8 +99,10 @@ public class MicropostAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView textView7;
-        TextView textView8;
-        TextView textView9;
+        TextView tv_name;
+        TextView tv_time;
+        TextView tv_content;
+        ImageView iv_icon;
+        ImageView iv_picture;
     }
 }

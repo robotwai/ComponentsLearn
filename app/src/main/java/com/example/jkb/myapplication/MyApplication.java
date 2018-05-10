@@ -15,10 +15,25 @@ public class MyApplication extends Application {
 
     @Inject
     SharedPreferenceHelper sharedPreferenceHelper;
+
+    @Inject
+    MicropostRepository micropostRepository;
+
+    private static MyApplication instance;
+
+    public static MyApplication getInstance() {
+        return instance;
+    }
+
+    public MyApplication() {
+        instance = this;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         DaggerAppComponent.builder().appModule(new AppModule(this)).build().inject(this);
     }
+
+
 
 }

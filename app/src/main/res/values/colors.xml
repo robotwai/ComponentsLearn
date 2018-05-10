@@ -9,8 +9,31 @@
     <color name="white">#ffffff</color>
     <color name="blue_500">#2B81EF</color>
     <color name="blue_700">#215EC5</color>
+    <color name="black">#000000</color>
     <!--中国风颜色-->
     <color name="mose">#50616D</color>//水墨
     <color name="huaqing">#003472</color>//花青
-    <color name="baifen">#FFF2DF</color>
+    <color name="baifen">#FFF2DF</color>//白粉
+    <color name="yinzhu">#BF242A</color>//银朱
+    <color name="yanzhi">#9D2933</color>//胭脂
+    <color name="zhusha">#FF461F</color>//朱砂
+    <color name="zhubiao">#F36838</color>//朱膘
+    <color name="zhushi">#845A33</color>//赭石
+    <color name="shilv">#16A951</color>//石绿
+    <color name="tenghuang">#FFB61E</color>//藤黄
+    <color name="cihuang">#FFC64B</color>//雌黄
+    <color name="xionghuang">#E9BB1D</color>//雄黄
+    <color name="yanghong">#FF4777</color>//洋红
+
+    <!--健康宝颜色-->
+    //字体颜色深
+    <color name="typeface_depth">#666666</color>
+    //字体颜色浅
+    <color name="typeface_light">#999999</color>
+    //字体颜色最浅
+    <color name="typeface_most_light">#CCCCCC</color>
+    //分割线颜色
+    <color name="halving_line">#e0e0e0</color>
+    //指示器选中颜色 主色调蓝色
+    <color name="indicator_blue">#3ab0bb</color>
 </resources>

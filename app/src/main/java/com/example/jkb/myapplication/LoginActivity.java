@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.jkb.myapplication.data.BaseResponse;
 import com.example.jkb.myapplication.utils.MapTransToRubyUtil;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -24,10 +25,10 @@ import retrofit2.Response;
  * Created by jkb on 18/4/23.
  */
 
-public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.editText)
+public class LoginActivity extends BaseActivity {
+    @BindView(R.id.et_phone)
     EditText editText;
-    @BindView(R.id.editText2)
+    @BindView(R.id.et_password)
     EditText editText2;
 
     SharedPreferenceHelper helper;
@@ -52,9 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                         if (response.body() != null && response.body().getStatus() == 0) {
-                            LogUtils.log(response.body().getData().toString());
-                            helper.setString("user", response.body().getData().toString());
+                            String s= response.body().getData().toString();
+                            LogUtils.log(s);
+                            User user = new Gson().fromJson(s, User.class);
+                            helper.setString(USER_SP, response.body().getData().toString());
+                            helper.setString(TOKEN, user.getToken());
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "账号密码错误", Toast.LENGTH_SHORT).show();
                         }
@@ -67,14 +72,16 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.button, R.id.textView4})
+    @OnClick({R.id.btn_login, R.id.tv_register,R.id.tv_forget})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.button:
+            case R.id.btn_login:
                 login();
                 break;
-            case R.id.textView4:
+            case R.id.tv_register:
                 startActivity(new Intent(this,RegisterActivity.class));
+                break;
+            case R.id.tv_forget:
                 break;
         }
     }

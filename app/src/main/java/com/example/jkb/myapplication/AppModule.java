@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.jkb.myapplication.data.local.MicropostDao;
+import com.example.jkb.myapplication.data.local.MicropostDatabase;
 import com.example.jkb.myapplication.data.local.PersonDao;
 import com.example.jkb.myapplication.data.local.PersonDatabase;
 
@@ -37,6 +39,11 @@ public class AppModule {
         return PersonDatabase.getInstance(context).personDao();
     }
 
+    @Singleton
+    @Provides
+    MicropostDao provideMicropost(){
+        return MicropostDatabase.getInstance(context).micropostDatabase();
+    }
 
     @Singleton
     @Provides
@@ -54,12 +61,6 @@ public class AppModule {
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .client(new OkHttpClient.Builder()
                         .addInterceptor(new CommonInterceptor())
-                        .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                            @Override
-                            public void log(String message) {
-                                Log.i("lzz","lzzz====message " + message);
-                            }
-                        }))
                         .build())
                 .build()
                 .create(DemoService.class);

@@ -7,4 +7,6 @@ package com.example.jkb.myapplication.utils;
 public interface Constans {
     String ID = "id";
     String NAME = "name";
+    String USER_SP = "user_sp";
+    String TOKEN = "token";
 }

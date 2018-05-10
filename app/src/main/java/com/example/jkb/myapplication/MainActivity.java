@@ -17,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.example.jkb.myapplication.DemoService.url;
+
 /**
  * Created by jkb on 18/3/2.
  */
@@ -27,7 +29,7 @@ public class MainActivity extends BaseActivity {
     TextView textView6;
 
     ImageView imageView2;
-    String url = "http://192.168.45.47:3000";
+
     @BindView(R.id.nav)
     NavigationView nav;
     @BindView(R.id.iv_icon_s)
@@ -43,7 +45,7 @@ public class MainActivity extends BaseActivity {
         View headerView = nav.getHeaderView(0);//获取头布局
         imageView2 = headerView.findViewById(R.id.iv_icon);
         textView6 = headerView.findViewById(R.id.tv_name);
-        String s = ((MyApplication) getApplication()).sharedPreferenceHelper.getString("user");
+        String s = ((MyApplication) getApplication()).sharedPreferenceHelper.getString(USER_SP);
         LogUtils.log(s);
         User user = new Gson().fromJson(s, User.class);
         textView6.setText(user.getName());

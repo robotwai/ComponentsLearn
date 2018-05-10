@@ -26,6 +26,8 @@ import retrofit2.http.QueryMap;
  */
 
 public interface DemoService {
+    String url = "http://192.168.45.47:3000";
+
     @GET("users/1")
     Call<ResponseBody> getDoctorInfo();
     @GET("static_pages/json.json")
@@ -60,7 +62,7 @@ public interface DemoService {
     Call<BaseResponse> signup(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
 
 
-    @GET("users/{id}.json")
-    Call<List<Micropost>>  getUserMicropost(@Path("id") int id, @Query("page") int page);
+    @GET("app/feed")
+    LiveData<ApiResponse<List<Micropost>>>  getUserMicropost(@Query("page") int page);
 
 }
