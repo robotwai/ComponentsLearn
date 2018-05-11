@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.jkb.myapplication.utils.DensityUtils;
 import com.example.jkb.myapplication.utils.GlideCircleTransform;
+import com.example.jkb.myapplication.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class MicropostAdapter extends BaseAdapter {
 
         holder.tv_content.setText(micropost.getContent());
         holder.tv_name.setText(micropost.getUser_name());
-        holder.tv_time.setText(micropost.getCreated_at());
+        holder.tv_time.setText(TimeUtils.CalculateTime(micropost.getCreated_at()));
         return convertView;
     }
 

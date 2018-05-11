@@ -65,4 +65,8 @@ public interface DemoService {
     @GET("app/feed")
     LiveData<ApiResponse<List<Micropost>>>  getUserMicropost(@Query("page") int page);
 
+    @Multipart
+    @POST("app/seedmicropost")
+    Call<BaseResponse> send(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
+
 }

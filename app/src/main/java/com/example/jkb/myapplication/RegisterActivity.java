@@ -116,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode ==1 &&resultCode==RESULT_OK){
             ivIcon.setImageURI(data.getData());
             try {
-                compressImg = compressImg(data.getData());
+                compressImg = PictureUtil.compressImg(RegisterActivity.this,data.getData(),"register_icon");
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -125,27 +125,4 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-    /**
-     * 压缩图片
-     *
-     * @param image
-     */
-    private String compressImg(Uri image) throws URISyntaxException {
-        String path = PictureUtil.getPath(this, image);
-        String targetPath = getExternalCacheDir(getApplication()) + "compressPic.jpg";
-        String compressImage = PictureUtil.compressImage(path, targetPath, 30);
-        return compressImage;
-    }
-
-
-    /**
-            * 获取程序外部的缓存目录
-     * @param context
-     * @return
-             */
-    public static File getExternalCacheDir(Context context) {
-        // 这个sd卡中文件路径下的内容会随着，程序卸载或者设置中清除缓存后一起清空
-        final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
-        return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
-    }
 }

@@ -58,7 +58,29 @@ public class PictureUtil {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(filePath, options);
     }
+    /**
+     * 压缩图片
+     *
+     * @param image
+     */
+    public static String compressImg(Context context,Uri image,String name) throws URISyntaxException {
+        String path = PictureUtil.getPath(context, image);
+        String targetPath = getExternalCacheDir(context.getApplicationContext()) +name +".jpg";
+        String compressImage = PictureUtil.compressImage(path, targetPath, 30);
+        return compressImage;
+    }
 
+
+    /**
+     * 获取程序外部的缓存目录
+     * @param context
+     * @return
+     */
+    public static File getExternalCacheDir(Context context) {
+        // 这个sd卡中文件路径下的内容会随着，程序卸载或者设置中清除缓存后一起清空
+        final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
+        return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
+    }
 
     /**
      * 获取照片角度

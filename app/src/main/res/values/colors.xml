@@ -36,4 +36,6 @@
     <color name="halving_line">#e0e0e0</color>
     //指示器选中颜色 主色调蓝色
     <color name="indicator_blue">#3ab0bb</color>
+    //状态栏颜色
+    <color name="colorStatusBar">#f1f1f1</color>
 </resources>

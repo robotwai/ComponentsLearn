@@ -1,5 +1,6 @@
 package com.example.jkb.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by jkb on 18/5/9.
@@ -88,12 +91,15 @@ public class FeedFragment extends BaseFragment {
             if (feed != null) {
                 switch (feed.status) {
                     case ERROR:
-                        hasMore = false;
-                        sw.setRefreshing(false);
                         Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                        sw.setRefreshing(false);
+                        adapter.clearData();
+                        hasMore =false;
+                        LogUtils.log(feed.data.get(0).toString());
+                        adapter.setData(feed.data);
                         break;
                     case LOADING:
-                        Toast.makeText(getContext(), "LOADING", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "LOADING", Toast.LENGTH_SHORT).show();
                         break;
                     case SUCCESS:
                         sw.setRefreshing(false);
@@ -103,46 +109,20 @@ public class FeedFragment extends BaseFragment {
                         }else {
                             hasMore =false;
                         }
-
                         adapter.clearData();
-
-                        LogUtils.log(feed.data.get(0).toString());
                         adapter.setData(feed.data);
                         break;
                 }
             }
         });
-//        refresh();
     }
 
-
-    void refresh() {
-//        ((MyApplication) getActivity().getApplication()).personRepository.webService.getUserMicropost(currentPage)
-//                .enqueue(new Callback<List<Micropost>>() {
-//                    @Override
-//                    public void onResponse(Call<List<Micropost>> call, Response<List<Micropost>> response) {
-//                        if (response!=null&&response.body()!=null){
-//                            if (currentPage == 1) {
-//                                adapter.clearData();
-//                            }
-//                            adapter.setData(response.body());
-//
-//                            if (response.body().size()<20){
-//                                hasMore = false;
-//                            }else {
-//                                hasMore = true;
-//                            }
-//                        }else {
-//                            hasMore = false;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<Micropost>> call, Throwable t) {
-//                        hasMore = false;
-//                    }
-//                });
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            feedModel.refresh();
+        }
     }
 
     @Override
