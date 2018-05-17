@@ -7,4 +7,9 @@
     <string name="password_hint">请输入6到18位数字字母组合密码</string>
     <string name="cancel">取消</string>
     <string name="send">发布</string>
+
+    <string name="clean_cache">清理缓存</string>
+    <string name="about_us">关于我们</string>
+    <string name="version_information">版本信息</string>
+    <string name="service_declaration">服务与申明</string>
 </resources>

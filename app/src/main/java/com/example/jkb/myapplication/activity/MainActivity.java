@@ -1,4 +1,4 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.jkb.myapplication.FeedFragment;
+import com.example.jkb.myapplication.LogUtils;
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.R;
+import com.example.jkb.myapplication.User;
 import com.example.jkb.myapplication.utils.GlideCircleTransform;
 import com.google.gson.Gson;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
@@ -39,6 +44,10 @@ public class MainActivity extends BaseActivity {
     TextView tvName;
     @BindView(R.id.tv_text)
     TextView tvText;
+    @BindView(R.id.tv_followed)
+    TextView tvFollowed;
+    @BindView(R.id.tv_follower)
+    TextView tvFollower;
 
 
     @Override
@@ -71,15 +80,26 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-    @OnClick({R.id.iv_icon_s, R.id.iv_pen})
+    @OnClick({R.id.ll_info, R.id.ll_set, R.id.ll_mark, R.id.iv_icon_s, R.id.iv_pen, R.id.tv_followed, R.id.tv_follower})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_info:
+
+                break;
+            case R.id.ll_set:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
+            case R.id.ll_mark:
+                break;
             case R.id.iv_icon_s:
                 drawerlayout.openMenu(true);
                 break;
             case R.id.iv_pen:
-                startActivity(new Intent(this,AddMicropostActivity.class));
+                startActivity(new Intent(this, AddMicropostActivity.class));
+                break;
+            case R.id.tv_followed:
+                break;
+            case R.id.tv_follower:
                 break;
         }
     }

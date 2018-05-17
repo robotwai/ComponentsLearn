@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/common_title_bar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_cache"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/clean_cache"
+                    android:textColor="@color/t3"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_next_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/common_btn_next_n" />
+
+                <TextView
+                    android:id="@+id/tv_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/iv_next_1"
+                    android:gravity="center_vertical"
+                    android:text="3.24M"
+                    android:textColor="@color/typeface_light"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/background" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/about_us"
+                    android:textColor="@color/t3"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/common_btn_next_n" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/background" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_version_information"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/version_information"
+                    android:textColor="@color/t3"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/common_btn_next_n" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/background" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_service_declaration"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/service_declaration"
+                    android:textColor="@color/t3"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/common_btn_next_n" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/background" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_exit_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/indicator_blue"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</LinearLayout>

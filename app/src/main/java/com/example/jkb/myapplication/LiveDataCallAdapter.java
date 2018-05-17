@@ -1,6 +1,8 @@
 package com.example.jkb.myapplication;
 import android.arch.lifecycle.LiveData;
 
+import com.example.jkb.myapplication.data.BaseResponse;
+
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 public class MyApplication extends Application {
     @Inject
-    PersonRepository personRepository;
+    public PersonRepository personRepository;
 
     @Inject
-    SharedPreferenceHelper sharedPreferenceHelper;
+    public SharedPreferenceHelper sharedPreferenceHelper;
 
     @Inject
-    MicropostRepository micropostRepository;
+    public MicropostRepository micropostRepository;
 
     private static MyApplication instance;
 

@@ -1,8 +1,6 @@
 package com.example.jkb.myapplication;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
+import com.example.jkb.myapplication.activity.ListActivity;
 
 /**
  * Created by lz on 18-3-22.

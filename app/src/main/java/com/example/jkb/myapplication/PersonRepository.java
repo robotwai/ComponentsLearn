@@ -28,9 +28,9 @@ import retrofit2.Retrofit;
  */
 @Singleton
 public class PersonRepository {
-    PersonDao personDao;
-    Executor executor;
-    DemoService webService;
+    public PersonDao personDao;
+    public Executor executor;
+    public DemoService webService;
     @Inject
     public PersonRepository( PersonDao personDao, Executor executor,DemoService webService) {
         this.personDao = personDao;
@@ -44,61 +44,67 @@ public class PersonRepository {
 //        return personDao.getPerson(id);
 
 
-        return new NetworkBoundResource<Person,Person>() {
-            @Override
-            protected void saveCallResult(@NonNull Person item) {
-                personDao.insertAll(item);
-            }
+//        return new NetworkBoundResource<Person,Person>() {
+//            @Override
+//            protected void saveCallResult(@NonNull Person item) {
+//                personDao.insertAll(item);
+//            }
+//
+//            @Override
+//            protected boolean shouldFetch(@Nullable Person data) {
+//                return true;
+//            }
+//
+//            @NonNull @Override
+//            protected LiveData<Person> loadFromDb() {
+//                return personDao.getPerson(id);
+//            }
+//
+//            @NonNull @Override
+//            protected LiveData<ApiResponse<Person>> createCall() {
+//                return webService.getPerson(id);
+//            }
+//        }.getAsLiveData();
 
-            @Override
-            protected boolean shouldFetch(@Nullable Person data) {
-                return true;
-            }
+        return new LiveData<Resource<Person>>(){
 
-            @NonNull @Override
-            protected LiveData<Person> loadFromDb() {
-                return personDao.getPerson(id);
-            }
-
-            @NonNull @Override
-            protected LiveData<ApiResponse<Person>> createCall() {
-                return webService.getPerson(id);
-            }
-        }.getAsLiveData();
+        };
 
     }
 
 
     public LiveData<Resource<List<Person>>> getPersons(){
+        return new LiveData<Resource<List<Person>>>(){
 
-        return new NetworkBoundResource<List<Person>,List<Person>>(){
-            @Override
-            protected void saveCallResult(@NonNull List<Person> item) {
-                Person[] p = item.toArray(new Person[0]);
-                personDao.insertAll(p);
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable List<Person> data) {
-                if (data!=null&&data.size()>0){
-                    return false;
-                }else {
-                    return true;
-                }
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<List<Person>> loadFromDb() {
-                return personDao.getAll();
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<List<Person>>> createCall() {
-                return webService.getPeople();
-            }
-        }.getAsLiveData();
+        };
+//        return new NetworkBoundResource<List<Person>,List<Person>>(){
+//            @Override
+//            protected void saveCallResult(@NonNull List<Person> item) {
+//                Person[] p = item.toArray(new Person[0]);
+//                personDao.insertAll(p);
+//            }
+//
+//            @Override
+//            protected boolean shouldFetch(@Nullable List<Person> data) {
+//                if (data!=null&&data.size()>0){
+//                    return false;
+//                }else {
+//                    return true;
+//                }
+//            }
+//
+//            @NonNull
+//            @Override
+//            protected LiveData<List<Person>> loadFromDb() {
+//                return personDao.getAll();
+//            }
+//
+//            @NonNull
+//            @Override
+//            protected LiveData<ApiResponse<List<Person>>> createCall() {
+//                return webService.getPeople();
+//            }
+//        }.getAsLiveData();
     }
 
 

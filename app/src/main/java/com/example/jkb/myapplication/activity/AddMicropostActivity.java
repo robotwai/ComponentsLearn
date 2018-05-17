@@ -1,4 +1,4 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.R;
 import com.example.jkb.myapplication.data.BaseResponse;
 import com.example.jkb.myapplication.utils.PictureUtil;
 
@@ -119,7 +121,7 @@ public class AddMicropostActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                         if (response.body()!=null&&response.body().getStatus()==0){
-                            Toast.makeText(AddMicropostActivity.this,"注册成功，请检查邮箱激活，并登陆",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMicropostActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
                         }else {

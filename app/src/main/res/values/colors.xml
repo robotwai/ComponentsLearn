@@ -38,4 +38,5 @@
     <color name="indicator_blue">#3ab0bb</color>
     //状态栏颜色
     <color name="colorStatusBar">#f1f1f1</color>
+    <color name="t3">#333333</color>
 </resources>

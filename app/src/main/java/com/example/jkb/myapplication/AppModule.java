@@ -9,6 +9,7 @@ import com.example.jkb.myapplication.data.local.MicropostDao;
 import com.example.jkb.myapplication.data.local.MicropostDatabase;
 import com.example.jkb.myapplication.data.local.PersonDao;
 import com.example.jkb.myapplication.data.local.PersonDatabase;
+import com.example.jkb.myapplication.utils.ExtraGsonConverterFactory;
 
 import java.util.concurrent.Executor;
 
@@ -57,7 +58,7 @@ public class AppModule {
 
         return new Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory( ExtraGsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .client(new OkHttpClient.Builder()
                         .addInterceptor(new CommonInterceptor())

@@ -13,6 +13,8 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.jkb.myapplication.activity.LoginActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -112,6 +114,7 @@ public class FeedFragment extends BaseFragment {
                         adapter.clearData();
                         adapter.setData(feed.data);
                         break;
+
                 }
             }
         });

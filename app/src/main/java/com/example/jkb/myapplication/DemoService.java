@@ -55,15 +55,15 @@ public interface DemoService {
 
     @FormUrlEncoded
     @POST("app/loggin")
-    Call<BaseResponse> norlogin(@FieldMap Map<String, String> options);
+    Call<BaseResponse<User>> norlogin(@FieldMap Map<String, String> options);
 
     @Multipart
-    @POST("signup.json")
+    @POST("app/register")
     Call<BaseResponse> signup(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
 
 
     @GET("app/feed")
-    LiveData<ApiResponse<List<Micropost>>>  getUserMicropost(@Query("page") int page);
+    LiveData<ApiResponse<BaseResponse<List<Micropost>>>>  getUserMicropost(@Query("page") int page);
 
     @Multipart
     @POST("app/seedmicropost")

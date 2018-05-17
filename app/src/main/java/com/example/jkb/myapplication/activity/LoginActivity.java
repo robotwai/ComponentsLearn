@@ -1,15 +1,19 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.jkb.myapplication.ApiResponse;
+import com.example.jkb.myapplication.LogUtils;
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.R;
+import com.example.jkb.myapplication.SharedPreferenceHelper;
+import com.example.jkb.myapplication.User;
 import com.example.jkb.myapplication.data.BaseResponse;
-import com.example.jkb.myapplication.utils.MapTransToRubyUtil;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -49,14 +53,12 @@ public class LoginActivity extends BaseActivity {
         LogUtils.log(editText2.getText().toString());
         map.put("password", editText2.getText().toString());
         ((MyApplication) getApplication()).personRepository.webService.norlogin(map)
-                .enqueue(new Callback<BaseResponse>() {
+                .enqueue(new Callback<BaseResponse<User>>() {
                     @Override
-                    public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                        if (response.body() != null && response.body().getStatus() == 0) {
-                            String s= response.body().getData().toString();
-                            LogUtils.log(s);
-                            User user = new Gson().fromJson(s, User.class);
-                            helper.setString(USER_SP, response.body().getData().toString());
+                    public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
+                        if (response.body()!=null&&response.body().getData()!=null){
+                            User user = response.body().getData();
+                            helper.setString(USER_SP, new Gson().toJson(user));
                             helper.setString(TOKEN, user.getToken());
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -66,10 +68,11 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<BaseResponse> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "账号密码错误", Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+
                     }
                 });
+
     }
 
     @OnClick({R.id.btn_login, R.id.tv_register,R.id.tv_forget})

@@ -2,11 +2,15 @@ package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
 import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
+
+import com.example.jkb.myapplication.data.AccountManager;
+import com.example.jkb.myapplication.data.BaseResponse;
 
 /**
  * Created by jkb on 18/4/10.
@@ -15,7 +19,7 @@ import android.support.annotation.WorkerThread;
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     // Called to save the result of the API response into the database
     @WorkerThread
-    protected abstract void saveCallResult(@NonNull RequestType item);
+    protected abstract void saveCallResult(@NonNull BaseResponse<RequestType> item);
 
     // Called with the data in the database to decide whether it should be
     // fetched from the network.
@@ -31,7 +35,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     // Called to create the API call.
     @NonNull @MainThread
-    protected abstract LiveData<ApiResponse<RequestType>> createCall();
+    protected abstract LiveData<ApiResponse<BaseResponse<RequestType>>> createCall();
 
     // Called when the fetch fails. The child class may want to reset components
     // like rate limiter.
@@ -63,7 +67,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
-        LiveData<ApiResponse<RequestType>> apiResponse = createCall();
+        LiveData<ApiResponse<BaseResponse<RequestType>>> apiResponse = createCall();
         // we re-attach dbSource as a new source,
         // it will dispatch its latest value quickly
         result.addSource(dbSource,
@@ -84,7 +88,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     @MainThread
-    private void saveResultAndReInit(ApiResponse<RequestType> response) {
+    private void saveResultAndReInit(ApiResponse<BaseResponse<RequestType>> response) {
         new AsyncTask<Void, Void, Void>() {
 
             @Override

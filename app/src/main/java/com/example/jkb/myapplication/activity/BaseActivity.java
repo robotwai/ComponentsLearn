@@ -1,4 +1,4 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
 import android.graphics.Color;
 import android.os.Build;

@@ -1,10 +1,7 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,11 +9,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.R;
 import com.example.jkb.myapplication.data.BaseResponse;
 import com.example.jkb.myapplication.utils.PictureUtil;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
@@ -26,7 +24,6 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

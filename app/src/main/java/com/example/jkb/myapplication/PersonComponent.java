@@ -1,5 +1,6 @@
 package com.example.jkb.myapplication;
 
+import com.example.jkb.myapplication.activity.MainActivity;
 import com.example.jkb.myapplication.data.local.PersonDao;
 
 import javax.inject.Singleton;

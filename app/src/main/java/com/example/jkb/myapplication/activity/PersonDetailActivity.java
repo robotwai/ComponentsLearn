@@ -1,12 +1,15 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.MyViewModel;
+import com.example.jkb.myapplication.Person;
+import com.example.jkb.myapplication.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

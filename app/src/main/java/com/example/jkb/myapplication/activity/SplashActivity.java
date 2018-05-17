@@ -1,10 +1,11 @@
-package com.example.jkb.myapplication;
+package com.example.jkb.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.BaseAdapter;
+
+import com.example.jkb.myapplication.MyApplication;
+import com.example.jkb.myapplication.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
