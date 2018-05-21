@@ -4,8 +4,10 @@ import android.text.TextUtils;
 
 import com.example.jkb.myapplication.data.AccountManager;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +61,8 @@ final class ExtraGsonResponseBodyConverter<T> implements Converter<ResponseBody,
             if (TextUtils.isEmpty(info)) {
                 info = response.optString("resultList");
             }
-            if (TextUtils.isEmpty(info) || TextUtils.equals(info.toLowerCase(), "null")) {
+            if (TextUtils.isEmpty(info) || TextUtils.equals(info.toLowerCase(), "null")
+                    || TextUtils.equals(info.toLowerCase(), "success")) {
                 info = "{}";
             }
 
@@ -71,7 +74,16 @@ final class ExtraGsonResponseBodyConverter<T> implements Converter<ResponseBody,
             Reader reader = new InputStreamReader(inputStream, charset);
             JsonReader jsonReader = gson.newJsonReader(reader);
 
-            return adapter.read(jsonReader);
+//            return adapter.read(jsonReader);
+
+
+
+            T result = adapter.read(jsonReader);
+            if (jsonReader.peek() != JsonToken.END_DOCUMENT) {
+                throw new JsonIOException("JSON document was not fully consumed.");
+            }
+            return result;
+
         } catch (JSONException e) {
             throw new IOException();
         } finally {

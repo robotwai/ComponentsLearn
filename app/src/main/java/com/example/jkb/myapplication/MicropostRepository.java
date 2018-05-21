@@ -33,8 +33,8 @@ public class MicropostRepository {
         networkBoundResource = new NetworkBoundResource<List<Micropost>,List<Micropost>>(){
 
             @Override
-            protected void saveCallResult(@NonNull BaseResponse<List<Micropost>> item) {
-                Micropost[] p = item.getData().toArray(new Micropost[0]);
+            protected void saveCallResult(@NonNull List<Micropost> item) {
+                Micropost[] p = item.toArray(new Micropost[0]);
                 micropostDao.insertAll(p);
             }
 
@@ -59,7 +59,7 @@ public class MicropostRepository {
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<BaseResponse<List<Micropost>>>> createCall() {
+            protected LiveData<ApiResponse<List<Micropost>>> createCall() {
                 return webService.getUserMicropost(page);
             }
         };

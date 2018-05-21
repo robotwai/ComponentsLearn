@@ -53,11 +53,11 @@ public class LoginActivity extends BaseActivity {
         LogUtils.log(editText2.getText().toString());
         map.put("password", editText2.getText().toString());
         ((MyApplication) getApplication()).personRepository.webService.norlogin(map)
-                .enqueue(new Callback<BaseResponse<User>>() {
+                .enqueue(new Callback<User>() {
                     @Override
-                    public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
-                        if (response.body()!=null&&response.body().getData()!=null){
-                            User user = response.body().getData();
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.body()!=null&&response.body()!=null){
+                            User user = response.body();
                             helper.setString(USER_SP, new Gson().toJson(user));
                             helper.setString(TOKEN, user.getToken());
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -68,7 +68,7 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+                    public void onFailure(Call<User> call, Throwable t) {
 
                     }
                 });

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.jkb.myapplication.MyApplication;
 import com.example.jkb.myapplication.R;
+import com.example.jkb.myapplication.data.BaseBean;
 import com.example.jkb.myapplication.data.BaseResponse;
 import com.example.jkb.myapplication.utils.PictureUtil;
 
@@ -104,35 +105,38 @@ public class AddMicropostActivity extends BaseActivity {
             Toast.makeText(AddMicropostActivity.this,"请添加一段文字",Toast.LENGTH_SHORT).show();
             return;
         }
-        if (imgPath==null){
-            Toast.makeText(AddMicropostActivity.this,"至少添加一张图片",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (imgPath==null){
+//            Toast.makeText(AddMicropostActivity.this,"至少添加一张图片",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         HashMap<String, String> map = new HashMap<>();
         map.put("content", etContent.getText().toString());
+        MultipartBody.Part body = null;
+        if (imgPath!=null){
+            File file = new File(imgPath);
+            //构建requestbody
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            //将resquestbody封装为MultipartBody.Part对象
+            body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+        }
 
-        File file = new File(imgPath);
-        //构建requestbody
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        //将resquestbody封装为MultipartBody.Part对象
-        MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
         ((MyApplication) getApplication()).personRepository.webService.send(body,map)
-                .enqueue(new Callback<BaseResponse>() {
+                .enqueue(new Callback<BaseBean>() {
                     @Override
-                    public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                        if (response.body()!=null&&response.body().getStatus()==0){
-                            Toast.makeText(AddMicropostActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<BaseBean> call, Response<BaseBean> response) {
+                        if (response.body()!=null){
+                            Toast.makeText(AddMicropostActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
                         }else {
-                            Toast.makeText(AddMicropostActivity.this,response.body().getData().toString(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMicropostActivity.this,"发布失败",Toast.LENGTH_SHORT).show();
                         }
 
 
                     }
 
                     @Override
-                    public void onFailure(Call<BaseResponse> call, Throwable t) {
+                    public void onFailure(Call<BaseBean> call, Throwable t) {
                         Toast.makeText(AddMicropostActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
                     }
                 });

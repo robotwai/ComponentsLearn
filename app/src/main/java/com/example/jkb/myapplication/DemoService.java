@@ -2,6 +2,7 @@ package com.example.jkb.myapplication;
 
 import android.arch.lifecycle.LiveData;
 
+import com.example.jkb.myapplication.data.BaseBean;
 import com.example.jkb.myapplication.data.BaseResponse;
 
 import java.util.List;
@@ -50,23 +51,23 @@ public interface DemoService {
     @GET("people/get_one_data.json")
     LiveData<ApiResponse<Person>>  getPerson(@Query("id") int id);
 
-    @POST("applogin.json")
-    Call<BaseResponse> login(@QueryMap Map<String, String> options);
+    @POST("applogin")
+    ApiResponse<BaseResponse> login(@QueryMap Map<String, String> options);
 
     @FormUrlEncoded
     @POST("app/loggin")
-    Call<BaseResponse<User>> norlogin(@FieldMap Map<String, String> options);
+    Call<User> norlogin(@FieldMap Map<String, String> options);
 
     @Multipart
     @POST("app/register")
-    Call<BaseResponse> signup(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
+    Call<BaseBean> signup(@Part MultipartBody.Part file, @QueryMap Map<String, String> options);
 
 
     @GET("app/feed")
-    LiveData<ApiResponse<BaseResponse<List<Micropost>>>>  getUserMicropost(@Query("page") int page);
+    LiveData<ApiResponse<List<Micropost>>>  getUserMicropost(@Query("page") int page);
 
     @Multipart
     @POST("app/seedmicropost")
-    Call<BaseResponse> send(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
+    Call<BaseBean> send(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
 
 }

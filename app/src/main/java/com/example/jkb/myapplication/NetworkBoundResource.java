@@ -19,7 +19,7 @@ import com.example.jkb.myapplication.data.BaseResponse;
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     // Called to save the result of the API response into the database
     @WorkerThread
-    protected abstract void saveCallResult(@NonNull BaseResponse<RequestType> item);
+    protected abstract void saveCallResult(@NonNull RequestType item);
 
     // Called with the data in the database to decide whether it should be
     // fetched from the network.
@@ -35,7 +35,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     // Called to create the API call.
     @NonNull @MainThread
-    protected abstract LiveData<ApiResponse<BaseResponse<RequestType>>> createCall();
+    protected abstract LiveData<ApiResponse<RequestType>> createCall();
 
     // Called when the fetch fails. The child class may want to reset components
     // like rate limiter.
@@ -67,7 +67,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
-        LiveData<ApiResponse<BaseResponse<RequestType>>> apiResponse = createCall();
+        LiveData<ApiResponse<RequestType>> apiResponse = createCall();
         // we re-attach dbSource as a new source,
         // it will dispatch its latest value quickly
         result.addSource(dbSource,
@@ -88,7 +88,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     @MainThread
-    private void saveResultAndReInit(ApiResponse<BaseResponse<RequestType>> response) {
+    private void saveResultAndReInit(ApiResponse<RequestType> response) {
         new AsyncTask<Void, Void, Void>() {
 
             @Override

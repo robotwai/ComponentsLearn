@@ -9,4 +9,5 @@ public interface Constans {
     String NAME = "name";
     String USER_SP = "user_sp";
     String TOKEN = "token";
+    String SUCCESS_MESSAGE ="success";
 }
