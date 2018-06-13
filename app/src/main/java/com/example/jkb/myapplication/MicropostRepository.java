@@ -13,6 +13,10 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by jkb on 18/5/10.
  */
@@ -65,5 +69,24 @@ public class MicropostRepository {
         };
 
         return networkBoundResource.getAsLiveData();
+    }
+
+    public void dot(int id){
+        webService.dot(id).enqueue(
+                new Callback<Micropost>() {
+                    @Override
+                    public void onResponse(Call<Micropost> call, Response<Micropost> response) {
+                        if (response.body()!=null){
+                            executor.execute(()->micropostDao.insertAll(response.body()));
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Micropost> call, Throwable t) {
+
+                    }
+                }
+        );
     }
 }

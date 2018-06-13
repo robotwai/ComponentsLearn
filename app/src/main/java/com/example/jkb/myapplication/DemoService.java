@@ -70,4 +70,9 @@ public interface DemoService {
     @POST("app/seedmicropost")
     Call<BaseBean> send(@Part MultipartBody.Part file,@QueryMap Map<String, String> options);
 
+    @GET("app/getMicropost")
+    Call<Micropost> getMicropost(@Query("id")int id);
+
+    @POST("app/dot")
+    Call<Micropost> dot(@Query("micropost_id")int id);
 }

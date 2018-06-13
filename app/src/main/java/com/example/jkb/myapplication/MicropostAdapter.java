@@ -25,9 +25,10 @@ import java.util.List;
 public class MicropostAdapter extends BaseAdapter {
     private Context context;
     List<Micropost> list = new ArrayList<>();
-
-    public MicropostAdapter(Context context) {
+    MicClickListener listener;
+    public MicropostAdapter(Context context,MicClickListener listener) {
         this.context = context;
+        this.listener = listener;
     }
     public void setData(List<Micropost> list) {
         this.list.addAll(list);
@@ -58,6 +59,8 @@ public class MicropostAdapter extends BaseAdapter {
             holder.tv_content = (TextView)convertView.findViewById(R.id.tv_content);
             holder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
             holder.iv_picture = (ImageView)convertView.findViewById(R.id.iv_picture);
+            holder.tv_support_num = (TextView)convertView.findViewById(R.id.tv_support_num);
+            holder.tv_commit_num = (TextView) convertView.findViewById(R.id.tv_commit_num);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -85,6 +88,18 @@ public class MicropostAdapter extends BaseAdapter {
         holder.tv_content.setText(micropost.getContent());
         holder.tv_name.setText(micropost.getUser_name());
         holder.tv_time.setText(TimeUtils.CalculateTime(micropost.getCreated_at()));
+        if (micropost.getDotId()!=null){
+            holder.tv_support_num.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getResources().getDrawable(R.mipmap.yizan),null,null,null);
+        }else {
+            holder.tv_support_num.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getResources().getDrawable(R.mipmap.dianzan),null,null,null);
+        }
+
+        holder.tv_support_num.setText(micropost.getDots_num()+"");
+        holder.tv_commit_num.setText(micropost.getComment_num()+"");
+        holder.tv_support_num.setOnClickListener(a -> listener.OnItemClick(1,micropost.getId()));
+        holder.tv_commit_num.setOnClickListener(a -> listener.OnItemClick(2,position));
         return convertView;
     }
 
@@ -105,5 +120,11 @@ public class MicropostAdapter extends BaseAdapter {
         TextView tv_content;
         ImageView iv_icon;
         ImageView iv_picture;
+        TextView tv_support_num;
+        TextView tv_commit_num;
+    }
+
+    interface MicClickListener{
+        void OnItemClick(int type,int position);
     }
 }

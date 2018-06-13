@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FeedModel extends ViewModel {
 
-    int currentPage =1;
+
     private LiveData<Resource<List<Micropost>>> listLiveData;
     private MicropostRepository repository;
 
@@ -34,4 +34,7 @@ public class FeedModel extends ViewModel {
         repository.networkBoundResource.start();
     }
 
+    public void dot(int id){
+        repository.dot(id);
+    }
 }

@@ -25,7 +25,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by jkb on 18/5/9.
  */
 
-public class FeedFragment extends BaseFragment {
+public class FeedFragment extends BaseFragment implements MicropostAdapter.MicClickListener{
     int id;
     @BindView(R.id.lv)
     ListView lv;
@@ -69,7 +69,7 @@ public class FeedFragment extends BaseFragment {
                 feedModel.refresh();
             }
         });
-        adapter = new MicropostAdapter(getContext());
+        adapter = new MicropostAdapter(getContext(),this);
         lv.setAdapter(adapter);
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -132,5 +132,16 @@ public class FeedFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void OnItemClick(int type, int position) {
+        switch (type){
+            case 1:
+                feedModel.dot(position);
+                break;
+            case 2:
+                break;
+        }
     }
 }

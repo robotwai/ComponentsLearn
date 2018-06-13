@@ -25,6 +25,37 @@ public class Micropost {
     private String user_name;
     @ColumnInfo(name = "icon")
     private String icon;
+    @ColumnInfo(name = "dotId")
+    private String dotId;
+    @ColumnInfo(name = "dots_num")
+    private int dots_num;
+    @ColumnInfo(name = "comment_num")
+    private int comment_num;
+
+
+    public String getDotId() {
+        return dotId;
+    }
+
+    public void setDotId(String dotId) {
+        this.dotId = dotId;
+    }
+
+    public int getDots_num() {
+        return dots_num;
+    }
+
+    public void setDots_num(int dots_num) {
+        this.dots_num = dots_num;
+    }
+
+    public int getComment_num() {
+        return comment_num;
+    }
+
+    public void setComment_num(int comment_num) {
+        this.comment_num = comment_num;
+    }
 
     public String getUser_name() {
         return user_name;
