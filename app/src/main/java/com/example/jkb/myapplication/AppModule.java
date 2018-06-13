@@ -28,7 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
     Context context;
-    String url = "http://192.168.45.47:3000/";
 
     public AppModule(Context context) {
         this.context = context;
@@ -57,7 +56,7 @@ public class AppModule {
     DemoService provideDemoService(){
 
         return new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(DemoService.url)
                 .addConverterFactory( ExtraGsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .client(new OkHttpClient.Builder()

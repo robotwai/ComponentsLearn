@@ -34,7 +34,7 @@ public class FeedModel extends ViewModel {
         repository.networkBoundResource.start();
     }
 
-    public void dot(int id){
-        repository.dot(id);
+    public void dot(int id,int type){
+        repository.dot(id,type);
     }
 }

@@ -27,7 +27,7 @@ import retrofit2.http.QueryMap;
  */
 
 public interface DemoService {
-    String url = "http://192.168.45.47:3000";
+    String url = "http://192.168.1.112:3000/";
 
     @GET("users/1")
     Call<ResponseBody> getDoctorInfo();
@@ -75,4 +75,7 @@ public interface DemoService {
 
     @POST("app/dot")
     Call<Micropost> dot(@Query("micropost_id")int id);
+
+    @POST("app/dotDestroy")
+    Call<Micropost> dotDestory(@Query("id")int id);
 }

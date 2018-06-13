@@ -98,8 +98,17 @@ public class MicropostAdapter extends BaseAdapter {
 
         holder.tv_support_num.setText(micropost.getDots_num()+"");
         holder.tv_commit_num.setText(micropost.getComment_num()+"");
-        holder.tv_support_num.setOnClickListener(a -> listener.OnItemClick(1,micropost.getId()));
-        holder.tv_commit_num.setOnClickListener(a -> listener.OnItemClick(2,position));
+        holder.tv_support_num.setOnClickListener(a -> {
+                    if (micropost.getDotId()!=null){
+                        listener.OnItemClick(2,Integer.parseInt(micropost.getDotId()));
+                    }else {
+                        listener.OnItemClick(1,micropost.getId());
+                    }
+
+                }
+
+        );
+        holder.tv_commit_num.setOnClickListener(a -> listener.OnItemClick(3,position));
         return convertView;
     }
 

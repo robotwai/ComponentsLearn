@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.jkb.myapplication.activity.LoginActivity;
+import com.example.jkb.myapplication.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -136,12 +137,10 @@ public class FeedFragment extends BaseFragment implements MicropostAdapter.MicCl
 
     @Override
     public void OnItemClick(int type, int position) {
-        switch (type){
-            case 1:
-                feedModel.dot(position);
-                break;
-            case 2:
-                break;
+        if (type==1||type==2){
+            feedModel.dot(position,type);
+        }else {
+            ToastUtils.Tip("评论");
         }
     }
 }

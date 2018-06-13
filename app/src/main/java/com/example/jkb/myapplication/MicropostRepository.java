@@ -71,22 +71,27 @@ public class MicropostRepository {
         return networkBoundResource.getAsLiveData();
     }
 
-    public void dot(int id){
-        webService.dot(id).enqueue(
-                new Callback<Micropost>() {
-                    @Override
-                    public void onResponse(Call<Micropost> call, Response<Micropost> response) {
-                        if (response.body()!=null){
-                            executor.execute(()->micropostDao.insertAll(response.body()));
+    public void dot(int id,int type){
+        Callback<Micropost> callback = new Callback<Micropost>() {
+            @Override
+            public void onResponse(Call<Micropost> call, Response<Micropost> response) {
+                if (response.body()!=null){
+                    executor.execute(()->micropostDao.insertAll(response.body()));
 
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Micropost> call, Throwable t) {
-
-                    }
                 }
-        );
+            }
+
+            @Override
+            public void onFailure(Call<Micropost> call, Throwable t) {
+
+            }
+        };
+
+        if (type==1){
+            webService.dot(id).enqueue(callback);
+        }else {
+            webService.dotDestory(id).enqueue(callback);
+        }
+
     }
 }
